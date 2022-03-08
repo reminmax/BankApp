@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="BankApp.Styles.Colors">
+
+    <Color x:Key="PrimaryColor">#3B3C98</Color>
+    <Color x:Key="SecondaryColor">#2A323E</Color>
+    <Color x:Key="BackgroundColor">#FFFFFF</Color>
+    
+    <Color x:Key="BankCardTextColor">#FFFFFF</Color>
+    
+    <Color x:Key="CreditAmountTextColor">#D0312D</Color>
+
+    <Color x:Key="NavigationPanelActiveItemColor">#1d6efe</Color>
+    <Color x:Key="NavigationPanelInactiveItemColor">#c1d2ff</Color>
+
+
+
+</ResourceDictionary>

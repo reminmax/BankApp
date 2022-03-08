@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:styles="clr-namespace:BankApp.Styles;assembly=BankApp"
+                    xmlns:helpers="clr-namespace:BankApp.Helpers;assembly=BankApp"
+                    xmlns:effects="http://xamarin.com/schemas/2020/toolkit"
+                    xmlns:iOsSpecific="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+                    xmlns:androidSpecific="clr-namespace:Xamarin.CommunityToolkit.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.CommunityToolkit"
+                    x:Class="BankApp.Styles.Theme">
+
+    <ResourceDictionary.MergedDictionaries>
+        <styles:Colors></styles:Colors>
+        <styles:Fonts></styles:Fonts>
+    </ResourceDictionary.MergedDictionaries>
+
+    <OnPlatform x:TypeArguments="x:Single" x:Key="FrameCornerRadius">
+        <On Platform="Android" Value="18" />
+        <On Platform="iOS" Value="24" />
+    </OnPlatform>
+
+    <Style x:Key="NavigationBarIcon" TargetType="Label">
+        <Setter Property="Text" Value="{x:Static helpers:FontAwesomeIcons.ChevronLeft}" />
+        <Setter Property="Margin" Value="14,0,0,0" />
+        <Setter Property="FontFamily" Value="FontAwesomeRegular" />
+        <Setter Property="FontSize" Value="{StaticResource NavigationBarIconFontSize}" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="BankCardLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="Norwester" />
+        <Setter Property="FontSize" Value="{StaticResource BankCardLabelSize}" />
+        <Setter Property="TextColor" Value="{StaticResource BankCardTextColor}" />
+    </Style>
+
+    <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+        <Setter Property="iOsSpecific:Page.UseSafeArea" Value="True" />
+        <Setter Property="effects:StatusBarEffect.Color" Value="{StaticResource PrimaryColor}" />
+        <Setter Property="effects:StatusBarEffect.Style" Value="LightContent" />
+        <Setter Property="androidSpecific:NavigationBarEffect.Color" Value="{StaticResource PrimaryColor}" />
+        <Setter Property="androidSpecific:NavigationBarEffect.Style" Value="LightContent" />
+    </Style>
+
+</ResourceDictionary>

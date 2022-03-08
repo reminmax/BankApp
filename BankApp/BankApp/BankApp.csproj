@@ -1,0 +1,69 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+     <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Fonts\FontAwesomeLight.ttf" />
+    <None Remove="Resources\Fonts\FontAwesomeRegular.ttf" />
+    <None Remove="Resources\Fonts\FontAwesomeSolid.ttf" />
+    <None Remove="Resources\Fonts\GraphieLight.otf" />
+    <None Remove="Resources\Fonts\GraphieRegular.otf" />
+    <None Remove="Resources\Fonts\Norwester.otf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\FontAwesomeLight.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\FontAwesomeRegular.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\FontAwesomeSolid.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\GraphieLight.otf" />
+    <EmbeddedResource Include="Resources\Fonts\GraphieRegular.otf" />
+    <EmbeddedResource Include="Resources\Fonts\Norwester.otf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microcharts.Forms" Version="0.9.5.9" />
+    <PackageReference Include="Prism.DryIoc.Forms" Version="8.1.97" />
+    <PackageReference Include="Prism.Forms" Version="8.1.97" />
+    <PackageReference Include="Prism.Forms.Regions" Version="8.1.97" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.0" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
+    <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Styles\Colors.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Styles\Fonts.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Styles\Theme.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Regions\ChartRegion.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Regions\NotificationsRegion.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Regions\TransactionsRegion.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Regions\ChartRegion.xaml.cs">
+      <DependentUpon>ChartRegion.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Regions\NotificationsRegion.xaml.cs">
+      <DependentUpon>NotificationsRegion.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

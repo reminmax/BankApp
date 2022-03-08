@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:BankApp.Helpers;assembly=BankApp"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:prism="http://prismlibrary.com"
+             x:Class="BankApp.Views.MainPage"
+             NavigationPage.HasNavigationBar="false">
+
+    <ContentPage.Resources>
+
+        <LinearGradientBrush x:Key="BankCardGradient" 
+                             StartPoint="0,0"
+                             EndPoint="1,1">
+            <GradientStop Color="#f83c42" Offset="0.1"/>
+            <GradientStop Color="#f9a699" Offset="0.6"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="MainGradient" 
+                             StartPoint="0.5,0.5"
+                             EndPoint="1,1">
+            <GradientStop Color="#FFFFFF" Offset="0.3"/>
+            <GradientStop Color="#DEEFFF" Offset="0.6"/>
+        </LinearGradientBrush>
+
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+
+        <Grid RowDefinitions="72,60,120,Auto,*"
+              RowSpacing="0"
+              VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand">
+
+            <!--#region Custom navigation bar-->
+            <Grid ColumnDefinitions="66,*,Auto"
+                  RowDefinitions="Auto,Auto"
+                  Grid.Row="0"
+                  Grid.RowSpan="2">
+
+                <!--User image-->
+                <Image Source="user.png"
+                       Grid.Column="0"
+                       Grid.RowSpan="2"
+                       Margin="6,0"
+                       Aspect="AspectFit"
+                       VerticalOptions="CenterAndExpand"/>
+
+                <!--Balance-->
+                <Label Text="Total balance"
+                       Grid.Row="0"
+                       Grid.Column="1"
+                       FontSize="14"
+                       FontFamily="GraphieLight"
+                       Margin="12,0"
+                       TextColor="{StaticResource NavigationPanelInactiveItemColor}"/>
+                <Label Text="{Binding Balance, StringFormat='{0:C}'}" 
+                       FontAttributes="Bold"
+                       Margin="12,0"
+                       Grid.Column="1"
+                       Grid.Row="1"
+                       FontSize="26"
+                       TranslationY="-6"
+                       TextColor="#FFFFFF"/>
+
+                <!--Cog icon-->
+                <Label Text="{x:Static helpers:FontAwesomeIcons.Cog}"
+                       Grid.Column="2"
+                       Grid.RowSpan="2"
+                       FontFamily="FontAwesomeLight"
+                       FontSize="24"
+                       TextColor="#FFFFFF"
+                       Margin="0,0,14,0"
+                       VerticalOptions="Center"/>
+
+            </Grid>
+            <!--#endregion-->
+
+            <Frame Grid.Row="2"
+                   Grid.RowSpan="3"
+                   Padding="0"
+                   HasShadow="False"
+                   xct:CornerRadiusEffect.CornerRadius="32,32,0,0"
+                   Background="{StaticResource MainGradient}">
+            </Frame>
+
+            <Grid RowDefinitions="150,*,Auto"
+                  Grid.Row="2"
+                  Grid.RowSpan="3">
+
+                <!--Regions-->
+                <ContentView prism:RegionManager.RegionName="TransactionsRegion"
+                             IsVisible="{Binding Region, Converter={xct:EqualConverter}, ConverterParameter='transactions'}"
+                             Grid.Row="1"/>
+                <ContentView prism:RegionManager.RegionName="ChartRegion"
+                             IsVisible="{Binding Region, Converter={xct:EqualConverter}, ConverterParameter='chart'}"
+                             Grid.Row="1"/>
+                <ContentView prism:RegionManager.RegionName="NotificationsRegion"
+                             IsVisible="{Binding Region, Converter={xct:EqualConverter}, ConverterParameter='notifications'}"
+                             Grid.Row="1"/>
+
+                <!--#region Navigation panel-->
+                <Frame Grid.Row="2"
+                       Padding="14"
+                       Margin="44,0"
+                       CornerRadius="50"
+                       HasShadow="False"
+                       BackgroundColor="#FFFFFF"
+                       VerticalOptions="End">
+
+                        <Grid ColumnDefinitions="33*,33*,33*"
+                              Margin="16,0"
+                              ColumnSpacing="0">
+
+                            <Label Grid.Column="0"
+                                   HorizontalOptions="Center"
+                                   FontFamily="FontAwesomeSolid"
+                                   Text="{x:Static helpers:FontAwesomeIcons.Wallet}"
+                                   TextColor="{StaticResource NavigationPanelActiveItemColor}"
+                                   FontSize="26"
+                                   xct:ShadowEffect.OffsetY="30"
+                                   xct:ShadowEffect.Radius="10"
+                                   xct:ShadowEffect.Opacity="0.30">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ChangeRegionCommand}" NumberOfTapsRequired="1" CommandParameter="transactions"/>
+                                </Label.GestureRecognizers>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup>
+                                        <VisualState x:Name="selected">
+                                            <VisualState.StateTriggers>
+                                                <StateTrigger IsActive="{Binding Region, Converter={xct:EqualConverter}, ConverterParameter='transactions'}"></StateTrigger>
+                                            </VisualState.StateTriggers>
+                                            <VisualState.Setters>
+                                                <Setter Property="TextColor" Value="{StaticResource NavigationPanelActiveItemColor}"/>
+                                                <Setter Property="xct:ShadowEffect.Color" Value="{StaticResource NavigationPanelActiveItemColor}"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="notSelected">
+                                            <VisualState.StateTriggers>
+                                                <StateTrigger IsActive="{Binding Region, Converter={xct:NotEqualConverter}, ConverterParameter='transactions'}"></StateTrigger>
+                                            </VisualState.StateTriggers>
+                                            <VisualState.Setters>
+                                                <Setter Property="TextColor" Value="{StaticResource NavigationPanelInactiveItemColor}"/>
+                                                <Setter Property="xct:ShadowEffect.Color" Value="Transparent"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Label>
+
+                            <Label Grid.Column="1"
+                                   HorizontalOptions="Center"
+                                   FontFamily="FontAwesomeSolid"
+                                   Text="{x:Static helpers:FontAwesomeIcons.ChartLine}"
+                                   TextColor="{StaticResource NavigationPanelInactiveItemColor}"
+                                   FontSize="26"
+                                   xct:ShadowEffect.OffsetY="30"
+                                   xct:ShadowEffect.Radius="10"
+                                   xct:ShadowEffect.Opacity="0.30">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ChangeRegionCommand}" NumberOfTapsRequired="1" CommandParameter="chart"/>
+                                </Label.GestureRecognizers>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup>
+                                            <VisualState x:Name="selected">
+                                                <VisualState.StateTriggers>
+                                                    <StateTrigger IsActive="{Binding Region, Converter={xct:EqualConverter}, ConverterParameter='chart'}"></StateTrigger>
+                                                </VisualState.StateTriggers>
+                                                <VisualState.Setters>
+                                                    <Setter Property="TextColor" Value="{StaticResource NavigationPanelActiveItemColor}"/>
+                                                    <Setter Property="xct:ShadowEffect.Color" Value="{StaticResource NavigationPanelActiveItemColor}"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="notSelected">
+                                                <VisualState.StateTriggers>
+                                                    <StateTrigger IsActive="{Binding Region, Converter={xct:NotEqualConverter}, ConverterParameter='chart'}"></StateTrigger>
+                                                </VisualState.StateTriggers>
+                                                <VisualState.Setters>
+                                                    <Setter Property="TextColor" Value="{StaticResource NavigationPanelInactiveItemColor}"/>
+                                                    <Setter Property="xct:ShadowEffect.Color" Value="Transparent"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                            </Label>
+
+                            <Label Grid.Column="2"
+                                   HorizontalOptions="Center"
+                                   FontFamily="FontAwesomeSolid"
+                                   Text="{x:Static helpers:FontAwesomeIcons.Bell}"
+                                   TextColor="{StaticResource NavigationPanelInactiveItemColor}"
+                                   FontSize="26"
+                                   xct:ShadowEffect.OffsetY="30"
+                                   xct:ShadowEffect.Radius="10"
+                                   xct:ShadowEffect.Opacity="0.30">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ChangeRegionCommand}" NumberOfTapsRequired="1" CommandParameter="notifications"/>
+                                </Label.GestureRecognizers>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="selected">
+                                        <VisualState.StateTriggers>
+                                            <StateTrigger IsActive="{Binding Region, Converter={xct:EqualConverter}, ConverterParameter='notifications'}"></StateTrigger>
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="TextColor" Value="{StaticResource NavigationPanelActiveItemColor}"/>
+                                            <Setter Property="xct:ShadowEffect.Color" Value="{StaticResource NavigationPanelActiveItemColor}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="notSelected">
+                                        <VisualState.StateTriggers>
+                                            <StateTrigger IsActive="{Binding Region, Converter={xct:NotEqualConverter}, ConverterParameter='notifications'}"></StateTrigger>
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="TextColor" Value="{StaticResource NavigationPanelInactiveItemColor}"/>
+                                            <Setter Property="xct:ShadowEffect.Color" Value="Transparent"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Label>
+
+                        </Grid>
+
+                    </Frame>
+                    <!--#endregion-->
+
+                </Grid>
+
+            <CarouselView Grid.Row="1"
+                          Grid.RowSpan="2"
+                          Margin="32,0"
+                          ItemsSource="{Binding BankCardsList}"
+                          CurrentItem="{Binding BankCardsListCurrentItem, Mode=TwoWay}"
+                          IndicatorView="IndicatorView"
+                          HorizontalScrollBarVisibility="Never">
+                <CarouselView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" 
+                                       SnapPointsType="MandatorySingle"
+                                       SnapPointsAlignment="Center"/>
+                </CarouselView.ItemsLayout>
+
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Background="{StaticResource BankCardGradient}"
+                               CornerRadius="{StaticResource FrameCornerRadius}">
+
+                            <Grid RowDefinitions="28,*,15,22" 
+                                  ColumnDefinitions="*,60"
+                                  RowSpacing="0">
+                                <Label Grid.Row="0" 
+                                       Grid.Column="0" 
+                                       Text="{Binding BankName}" 
+                                       Style="{StaticResource BankCardLabel}"
+                                       FontSize="20" 
+                                       VerticalOptions="End" />
+                                <Label Grid.Row="1" 
+                                       Grid.Column="0" 
+                                       Text="{Binding Id}" 
+                                       FontSize="18"
+                                       Style="{StaticResource BankCardLabel}"
+                                       VerticalOptions="Center"  />
+                                <Label Grid.Row="2" 
+                                       Grid.Column="0" 
+                                       FontAttributes="Bold" 
+                                       FontSize="10" 
+                                       Text="Balance" 
+                                       TextTransform="Uppercase" 
+                                       TextColor="{StaticResource BankCardTextColor}"/>
+                                <Label Grid.Row="3" 
+                                       Grid.Column="0" 
+                                       Text="{Binding Balance, StringFormat='{0:C}'}" 
+                                       FontSize="24"
+                                       Style="{StaticResource BankCardLabel}"/>
+                                <Label Grid.Row="3" 
+                                       Grid.Column="1"
+                                       FontSize="14"
+                                       Text="{Binding Expiry}"
+                                       Style="{StaticResource BankCardLabel}"/>
+
+                                <Label Grid.Row="0" 
+                                       Grid.Column="1" 
+                                       FontFamily="FontAwesomeSolid" 
+                                       FontSize="28" 
+                                       VerticalOptions="End" 
+                                       TextColor="{StaticResource BankCardTextColor}"
+                                       Text="{x:Static helpers:FontAwesomeIcons.CreditCard}" />
+                            </Grid>
+
+                        </Frame>
+
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
+            <!--IndicatorView-->
+            <IndicatorView x:Name="IndicatorView"
+                           Grid.Row="3"
+                           Margin="0,8,0,0"
+                           IndicatorSize="8"
+                           IndicatorColor="{StaticResource NavigationPanelInactiveItemColor}"
+                           SelectedIndicatorColor="{StaticResource NavigationPanelActiveItemColor}"
+                           VerticalOptions="Start"
+                           HorizontalOptions="Center"/>
+
+        </Grid>
+
+    </ContentPage.Content>
+
+</ContentPage>

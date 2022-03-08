@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:BankApp.Helpers;assembly=BankApp"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="BankApp.Views.Regions.TransactionsRegion">
+
+    <StackLayout Margin="20,2"
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="FillAndExpand">
+
+        <StackLayout Orientation="Horizontal"
+                     Spacing="0"
+                     Padding="16,0">
+
+            <Label Text="Recent transactions"
+                   FontFamily="GraphieRegular"
+                   HorizontalOptions="StartAndExpand"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource SecondaryColor}"/>
+
+            <Label HorizontalOptions="End"
+                   FontFamily="FontAwesomeSolid"
+                   Text="{x:Static helpers:FontAwesomeIcons.Wallet}"
+                   TextColor="{StaticResource SecondaryColor}"
+                   FontSize="24" />
+
+        </StackLayout>
+
+        <CollectionView ItemsSource="{Binding TransactionsList}"
+                        Margin="6,4"
+                        ItemSizingStrategy="MeasureAllItems"
+                        SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="Auto,Auto"
+                          RowDefinitions="Auto,Auto"
+                          RowSpacing="0">
+
+                        <Frame CornerRadius="8"
+                               Grid.RowSpan="2"
+                               Grid.ColumnSpan="3"
+                               HasShadow="False"
+                               Padding="10"
+                               Margin="0,2">
+                        </Frame>
+
+                        <Label Text="{Binding Details}"
+                               Grid.Column="0"
+                               Grid.Row="0"
+                               Margin="12,10,0,0"
+                               HorizontalOptions="StartAndExpand"
+                               FontSize="16"
+                               FontFamily="GraphieLight"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource SecondaryColor}"/>
+                        <Label Text="{Binding Amount, StringFormat='{0:C}'}"
+                               Grid.Column="0"
+                               Grid.Row="1"
+                               Margin="12,6,0,12"
+                               HorizontalOptions="StartAndExpand"
+                               FontFamily="GraphieRegular"
+                               FontSize="16"
+                               TextColor="{StaticResource NavigationPanelActiveItemColor}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="credit">
+                                        <VisualState.StateTriggers>
+                                            <StateTrigger IsActive="{Binding IsDebit, Converter={xct:InvertedBoolConverter}}"></StateTrigger>
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Property="TextColor" Value="{StaticResource CreditAmountTextColor}"/>
+                                            <Setter Property="Text" Value="{Binding Amount, StringFormat='-{0:C}'}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Label>
+                        <Label Text="Date"
+                               Grid.Column="2"
+                               Grid.Row="0"
+                               Margin="0,10,12,0"
+                               HorizontalOptions="EndAndExpand"
+                               FontSize="14"
+                               FontFamily="GraphieRegular"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource SecondaryColor}"/>
+                        <Label Text="{Binding Date, StringFormat='{0:dd.MM.yyyy}'}"
+                               Grid.Column="2"
+                               Grid.Row="1"
+                               Margin="0,10,12,0"
+                               HorizontalOptions="EndAndExpand"
+                               FontSize="14"
+                               FontFamily="GraphieLight"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource SecondaryColor}"/>
+
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </StackLayout>
+
+</ContentView>
